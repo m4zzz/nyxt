@@ -49,7 +49,7 @@ The `implicit-visits' count is incremented unless EXPLICIT is non-nil, in which
 case `explicit-visits'.
 The history is sorted by last access."
   (with-data-access (history (history-path (current-buffer))
-                             :default (htree:make))
+                     :default (htree:make))
       (unless (url-empty-p uri)
         (let* ((maybe-entry (make-instance 'history-entry
                                            :url uri :id (id (current-buffer)) :title title))
@@ -62,7 +62,8 @@ The history is sorted by last access."
           (when title
             ;; Always update the title since it may have changed since last visit.
             (setf (title entry) title))
-          (setf (data node) entry)))))
+          (setf (data node) entry)))
+    (setf (current-history-node (current-buffer)) (htree:current history))))
 
 (define-command delete-history-entry ()
   "Delete queried history entries."
